@@ -80,11 +80,19 @@ func Connections(kind string) ([]ConnectionStat, error) {
 
 // Return a list of network connections opened by a process.
 func ConnectionsPid(kind string, pid int32) ([]ConnectionStat, error) {
+	var ret []ConnectionStat
+
 	//ParseNetstat and get connections
-	//connections, err := ParseNetstat()
+	connections, err := ParseNetstat()
+
+	for _, connection := range connections {
+		if connection.Pid == pid {
+			ret = append(ret, connection)
+		}
+	}
 
 	//Return List of ConnectionStat that match pid
-	return []ConnectionStat{}, common.ErrNotImplementedError
+	return ret, err
 }
 
 //Parse netstat output into a collection of connections
